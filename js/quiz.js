@@ -1,27 +1,7 @@
-/* ===== 单词自测·打字版（测试效应：先回忆，再对照）===== */
+/* ===== 单词自测·打字版（测试效应：先回忆，再对照）=====
+   数据源：window.WORD_DATA（JSON），范围支持 JLPT 等级与生活分类 */
 (function () {
   'use strict';
-
-  /* ---------- 遮罩自测：给日语列加 class，控制遮罩 ---------- */
-  document.querySelectorAll('.words-table tr').forEach(function (tr) {
-    var tds = tr.querySelectorAll('td');
-    if (tds.length >= 2) tds[0].classList.add('jp');
-  });
-  var maskBtns = document.querySelectorAll('.mask-btn');
-  if (maskBtns.length) {
-    maskBtns.forEach(function (btn) {
-      btn.addEventListener('click', function () {
-        maskBtns.forEach(function (b) { b.classList.remove('active'); });
-        btn.classList.add('active');
-        var m = btn.dataset.mask;
-        document.querySelectorAll('.words-wrap').forEach(function (w) {
-          w.classList.remove('mask-jp', 'mask-zh');
-          if (m === 'jp') w.classList.add('mask-jp');
-          if (m === 'zh') w.classList.add('mask-zh');
-        });
-      });
-    });
-  }
 
   /* ---------- 假名 → 罗马音 ---------- */
   var KANA = {
@@ -57,14 +37,12 @@
     for (var i = 0; i < kana.length; i++) {
       var ch = kana[i];
       if (ch === 'っ') {
-        // 促音：双写下一个音节的首辅音
         var nx = kana[i + 1] || '';
         var nxt = KANA[nx] || '';
         if (nxt) out += nxt[0];
         continue;
       }
-      if (ch === 'ー') continue; // 长音符号：判定时容错，直接忽略
-      // 优先匹配双假名（拗音）
+      if (ch === 'ー') continue;
       var two = kana.substr(i, 2);
       if (KANA[two]) { out += KANA[two]; i++; continue; }
       out += KANA[ch] || ch;
@@ -72,42 +50,19 @@
     return out;
   }
 
-  /* ---------- 数据读取（按表格前一个标题自动判断所属范围） ---------- */
-  var words = [];
-  function scopeOf(heading) {
-    if (!heading) return 'other';
-    var m = heading.match(/第\s*(\d+)\s*課/);
-    if (m) return parseInt(m[1], 10) <= 25 ? 'n5' : 'n4';
-    if (/JLPT/.test(heading)) return 'jlpt';
-    return 'cat';
-  }
-  document.querySelectorAll('.words-wrap').forEach(function (wrap) {
-    var table = wrap.querySelector('table.words-table');
-    if (!table) return;
-    var h = wrap.previousElementSibling;
-    while (h && h.tagName !== 'H2') h = h.previousElementSibling;
-    var scope = scopeOf(h ? h.textContent : '');
-    var rows = table.querySelectorAll('tr');
-    for (var i = 1; i < rows.length; i++) {
-      var tds = rows[i].querySelectorAll('td');
-      if (tds.length < 2) continue;
-      var jpHTML = tds[0].innerHTML;
-      // 提取注音假名（rt 文本）；没有汉字注音时取整格假名文本
-      var rts = tds[0].querySelectorAll('rt');
-      var kana = '';
-      if (rts.length) {
-        for (var r = 0; r < rts.length; r++) kana += rts[r].textContent;
-      } else {
-        kana = tds[0].textContent.trim();
-      }
-      words.push({
-        jp: jpHTML,
-        zh: tds[1].textContent.trim(),
-        kana: kana,
-        romaji: kanaToRomaji(kana),
-        scope: scope
-      });
-    }
+  /* ---------- 数据 ---------- */
+  var words = (window.WORD_DATA || []).map(function (w) {
+    var isCat = w.g && w.g.indexOf('cat:') === 0;
+    return {
+      jp: w.j,
+      zh: w.z,
+      kana: w.r || w.j,
+      hasRt: !!w.r,
+      romaji: kanaToRomaji(w.r || w.j),
+      lvl: w.lvl || 'n5',
+      isCat: isCat,
+      src: w.l > 0 ? ('第' + w.l + '课') : (w.g === 'jlpt' ? '核心' : '分类')
+    };
   });
 
   var startBtn = document.getElementById('quiz-start');
@@ -116,14 +71,12 @@
   var countSel = document.getElementById('quiz-count');
   if (!startBtn || !box || words.length < 4) return;
 
-  // 统计各范围词数，自动刷新下拉框选项文字（加词后无需手改）
   var SCOPE_LABELS = {
-    all: '全部词汇', n5: 'N5（第 1-25 课）', n4: 'N4（第 26-50 课）',
-    jlpt: 'JLPT 核心词', cat: '生活分类', other: '其他'
+    all: '全部词汇', n5: 'N5', n4: 'N4', n3: 'N3', n2: 'N2', n1: 'N1', cat: '生活分类'
   };
   if (scopeSel) {
-    var counts = { all: words.length, n5: 0, n4: 0, jlpt: 0, cat: 0, other: 0 };
-    words.forEach(function (w) { counts[w.scope]++; });
+    var counts = { all: words.length, n5: 0, n4: 0, n3: 0, n2: 0, n1: 0, cat: 0 };
+    words.forEach(function (w) { counts[w.lvl]++; if (w.isCat) counts.cat++; });
     Array.prototype.forEach.call(scopeSel.options, function (opt) {
       if (opt.value in counts) opt.textContent = SCOPE_LABELS[opt.value] + '（' + counts[opt.value] + ' 词）';
     });
@@ -146,7 +99,10 @@
 
   function genQuiz() {
     curScope = scopeSel ? scopeSel.value : 'all';
-    var pool = curScope === 'all' ? words.slice() : words.filter(function (w) { return w.scope === curScope; });
+    var pool;
+    if (curScope === 'all') pool = words.slice();
+    else if (curScope === 'cat') pool = words.filter(function (w) { return w.isCat; });
+    else pool = words.filter(function (w) { return w.lvl === curScope; });
     var want = countSel ? parseInt(countSel.value, 10) : 10;
     QUESTIONS = Math.min(want, pool.length);
     questions = shuffle(pool).slice(0, QUESTIONS);
@@ -154,9 +110,16 @@
   }
 
   /* ---------- 判定 ---------- */
+  function esc(s) {
+    return String(s).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
+  }
+  function rubyHTML(w) {
+    return w.hasRt
+      ? '<ruby>' + esc(w.jp) + '<rt>' + esc(w.kana) + '</rt></ruby>'
+      : esc(w.jp);
+  }
   function normZh(s) { return s.toLowerCase().replace(/[\s·、/，,。.!！?？（）()「」]/g, ''); }
   function zhWords(w) {
-    // 按 / · 、 拆分多义词，忽略括号注释
     var clean = w.zh.replace(/（[^）]*）/g, '').replace(/\([^)]*\)/g, '');
     return clean.split(/[/·、\s]/).map(normZh).filter(Boolean);
   }
@@ -205,7 +168,7 @@
     answered = false;
     document.getElementById('q-now').textContent = cur + 1;
     document.getElementById('q-score').textContent = score;
-    document.getElementById('q-question').innerHTML = mode === 'jp2zh' ? questions[cur].jp : questions[cur].zh;
+    document.getElementById('q-question').innerHTML = mode === 'jp2zh' ? rubyHTML(questions[cur]) : esc(questions[cur].zh);
     document.getElementById('q-feedback').textContent = '';
     document.getElementById('q-next').style.display = 'none';
     document.getElementById('q-skip').style.display = 'inline-block';
@@ -222,9 +185,9 @@
     if (!wasSkip) wrongs.push(q);
     var fb = document.getElementById('q-feedback');
     if (mode === 'jp2zh') {
-      fb.innerHTML = '❌ 正确答案：' + q.jp + ' = ' + q.zh;
+      fb.innerHTML = '❌ 正确答案：' + rubyHTML(q) + ' = ' + esc(q.zh);
     } else {
-      fb.innerHTML = '❌ 正确答案：' + q.jp + '（罗马音：' + q.romaji + '）';
+      fb.innerHTML = '❌ 正确答案：' + rubyHTML(q) + '（罗马音：' + esc(q.romaji) + '）';
     }
     document.getElementById('q-input').disabled = true;
     document.getElementById('q-skip').style.display = 'none';
@@ -242,12 +205,11 @@
       score++;
       document.getElementById('q-score').textContent = score;
       var fb = document.getElementById('q-feedback');
-      fb.innerHTML = '✅ 答对啦！' + (mode === 'jp2zh' ? q.jp + ' = ' + q.zh : q.zh + ' → ' + q.jp);
+      fb.innerHTML = '✅ 答对啦！' + (mode === 'jp2zh' ? rubyHTML(q) + ' = ' + esc(q.zh) : esc(q.zh) + ' → ' + rubyHTML(q));
       input.disabled = true;
       document.getElementById('q-skip').style.display = 'none';
       document.getElementById('q-next').style.display = 'inline-block';
     } else {
-      // 输入了但不对：给一次提示，算一次错误但不用立即判死？直接判错显示答案
       wrongs.push(q);
       showAnswer(false);
     }
@@ -272,7 +234,7 @@
       '<div>' + tip + '</div>' +
       (wrongs.length
         ? '<div class="quiz-wrong-list">📝 错词清单：' +
-          wrongs.map(function (w) { return mode === 'jp2zh' ? w.jp + '（' + w.zh + '）' : w.zh + '（' + w.jp + '）'; }).join('、') +
+          wrongs.map(function (w) { return mode === 'jp2zh' ? rubyHTML(w) + '（' + esc(w.zh) + '）' : esc(w.zh) + '（' + rubyHTML(w) + '）'; }).join('、') +
           '</div>'
         : '') +
       '<div class="quiz-foot">' +
