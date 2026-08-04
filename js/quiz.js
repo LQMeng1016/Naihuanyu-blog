@@ -72,9 +72,21 @@
     return out;
   }
 
-  /* ---------- 数据读取 ---------- */
+  /* ---------- 数据读取（按表格前一个标题自动判断所属范围） ---------- */
   var words = [];
-  document.querySelectorAll('.words-table').forEach(function (table) {
+  function scopeOf(heading) {
+    if (!heading) return 'other';
+    var m = heading.match(/第\s*(\d+)\s*課/);
+    if (m) return parseInt(m[1], 10) <= 25 ? 'n5' : 'n4';
+    if (/JLPT/.test(heading)) return 'jlpt';
+    return 'cat';
+  }
+  document.querySelectorAll('.words-wrap').forEach(function (wrap) {
+    var table = wrap.querySelector('table.words-table');
+    if (!table) return;
+    var h = wrap.previousElementSibling;
+    while (h && h.tagName !== 'H2') h = h.previousElementSibling;
+    var scope = scopeOf(h ? h.textContent : '');
     var rows = table.querySelectorAll('tr');
     for (var i = 1; i < rows.length; i++) {
       var tds = rows[i].querySelectorAll('td');
@@ -92,16 +104,33 @@
         jp: jpHTML,
         zh: tds[1].textContent.trim(),
         kana: kana,
-        romaji: kanaToRomaji(kana)
+        romaji: kanaToRomaji(kana),
+        scope: scope
       });
     }
   });
 
   var startBtn = document.getElementById('quiz-start');
   var box = document.getElementById('quiz-box');
+  var scopeSel = document.getElementById('quiz-scope');
+  var countSel = document.getElementById('quiz-count');
   if (!startBtn || !box || words.length < 4) return;
 
+  // 统计各范围词数，自动刷新下拉框选项文字（加词后无需手改）
+  var SCOPE_LABELS = {
+    all: '全部词汇', n5: 'N5（第 1-25 课）', n4: 'N4（第 26-50 课）',
+    jlpt: 'JLPT 核心词', cat: '生活分类', other: '其他'
+  };
+  if (scopeSel) {
+    var counts = { all: words.length, n5: 0, n4: 0, jlpt: 0, cat: 0, other: 0 };
+    words.forEach(function (w) { counts[w.scope]++; });
+    Array.prototype.forEach.call(scopeSel.options, function (opt) {
+      if (opt.value in counts) opt.textContent = SCOPE_LABELS[opt.value] + '（' + counts[opt.value] + ' 词）';
+    });
+  }
+
   var QUESTIONS = 10;
+  var curScope = 'all';
   var mode = 'jp2zh';
   var questions = [];
   var cur = 0, score = 0, wrongs = [];
@@ -116,7 +145,11 @@
   }
 
   function genQuiz() {
-    questions = shuffle(words.slice()).slice(0, QUESTIONS);
+    curScope = scopeSel ? scopeSel.value : 'all';
+    var pool = curScope === 'all' ? words.slice() : words.filter(function (w) { return w.scope === curScope; });
+    var want = countSel ? parseInt(countSel.value, 10) : 10;
+    QUESTIONS = Math.min(want, pool.length);
+    questions = shuffle(pool).slice(0, QUESTIONS);
     cur = 0; score = 0; wrongs = [];
   }
 
@@ -149,7 +182,8 @@
   /* ---------- 渲染 ---------- */
   function rebuildBox() {
     box.innerHTML =
-      '<div class="quiz-head">第 <span id="q-now">1</span> / <span id="q-total">' + QUESTIONS + '</span> 题 · 得分 <span id="q-score">0</span></div>' +
+      '<div class="quiz-head"><span>范围：' + (SCOPE_LABELS[curScope] || '全部词汇') + '</span>' +
+      '<span>第 <span id="q-now">1</span> / <span id="q-total">' + QUESTIONS + '</span> 题 · 得分 <span id="q-score">0</span></span></div>' +
       '<div class="quiz-question" id="q-question"></div>' +
       '<div class="quiz-input-row"><input class="quiz-input" id="q-input" type="text" placeholder="' + (mode === 'jp2zh' ? '输入中文意思…' : '输入罗马音…') + '" autocomplete="off"><button class="quiz-btn" id="q-submit">确定</button></div>' +
       '<div class="quiz-feedback" id="q-feedback"></div>' +

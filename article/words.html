@@ -44,6 +44,23 @@
   <!-- 自测入口 -->
   <div class="quiz-bar">
     <button class="quiz-btn" id="quiz-start">🎯 开始自测</button>
+    <label>范围
+      <select id="quiz-scope" class="quiz-select">
+        <option value="all">全部词汇</option>
+        <option value="n5">N5（第 1-25 课）</option>
+        <option value="n4">N4（第 26-50 课）</option>
+        <option value="jlpt">JLPT 核心词</option>
+        <option value="cat">生活分类</option>
+      </select>
+    </label>
+    <label>题数
+      <select id="quiz-count" class="quiz-select">
+        <option value="10" selected>10 题</option>
+        <option value="25">25 题</option>
+        <option value="50">50 题</option>
+        <option value="100">100 题</option>
+      </select>
+    </label>
     <label><input type="radio" name="qmode" value="jp2zh" checked> 日语 → 中文（打字）</label>
     <label><input type="radio" name="qmode" value="zh2jp"> 中文 → 日语（打罗马音）</label>
   </div>
@@ -2091,7 +2108,7 @@
   </div>
 
   <div class="tip-box">
-    📌 <strong>说明：</strong>目前包含 N5 核心词、生活分类，以及《大家的日语》初级1（第 1-25 课）和初级2（第 26-50 课）全部教材单词（共 1534 词）。
+    📌 <strong>说明：</strong>目前包含 N5 核心词、生活分类，以及《大家的日语》初级1（第 1-25 课）和初级2（第 26-50 课）全部教材单词（共 1734 词）。
     N4/N3 词汇和更多分类（食物、动物、文具、职场…）会陆续补充；
     教材里的课文单词也可以按课次追加到这里，配合间隔复习打卡背诵。
   </div>
