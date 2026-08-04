@@ -1,0 +1,252 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>拾光 · 素笺 · 主题实验室</title>
+<style>
+  /* ===== 拾光 × 素笺 · 主题实验室 =====
+     6 套配色 × 深浅模式，点击色卡随时切换，选择自动记住 */
+
+  /* ---------- 主题色（浅色） ---------- */
+  body[data-theme="matcha"]{  /* 抹茶绿 */
+    --paper:#f5f7f1;--ink:#3a4235;--muted:#8f9a86;--accent:#7d9c6a;--line:#e4e9dc;
+  }
+  body[data-theme="sky"]{     /* 淡蓝 */
+    --paper:#f2f6fa;--ink:#2c3a4a;--muted:#7d8fa3;--accent:#6b9ac4;--line:#dfe7ef;
+  }
+  body[data-theme="washi"]{   /* 素笺暖纸 */
+    --paper:#f7f4ef;--ink:#3d3a36;--muted:#9a938a;--accent:#b0885a;--line:#e6e0d6;
+  }
+  body[data-theme="mono"]{    /* 拾光黑白 */
+    --paper:#ffffff;--ink:#1a1a1a;--muted:#888888;--accent:#1a1a1a;--line:#e8e8e8;
+  }
+  body[data-theme="line"]{    /* 现代线条 */
+    --paper:#fafafa;--ink:#111111;--muted:#6b6b6b;--accent:#4f6ef7;--line:#e5e5e5;
+  }
+  body[data-theme="term"]{    /* 终端极客 */
+    --paper:#f4f6f3;--ink:#1c211a;--muted:#70776a;--accent:#3fb950;--line:#dfe3da;
+  }
+
+  /* ---------- 主题色（深色） ---------- */
+  body[data-theme="matcha"].dark{--paper:#1f241c;--ink:#dfe6d8;--muted:#93a088;--accent:#a8c48f;--line:#2e3529;}
+  body[data-theme="sky"].dark{   --paper:#1c242e;--ink:#dbe4ee;--muted:#8fa0b3;--accent:#8fb7dd;--line:#2c3742;}
+  body[data-theme="washi"].dark{ --paper:#26221c;--ink:#e8e2d8;--muted:#a89f92;--accent:#c9a06b;--line:#37312a;}
+  body[data-theme="mono"].dark{  --paper:#121212;--ink:#f0f0f0;--muted:#9a9a9a;--accent:#f0f0f0;--line:#2a2a2a;}
+  body[data-theme="line"].dark{  --paper:#15161a;--ink:#e8eaef;--muted:#8b90a0;--accent:#6b86f5;--line:#262830;}
+  body[data-theme="term"].dark{  --paper:#0f1115;--ink:#d4d4d4;--muted:#6b7280;--accent:#7ee787;--line:#23272f;}
+
+  *{margin:0;padding:0;box-sizing:border-box;}
+  html{scroll-behavior:smooth;}
+  body{
+    background:var(--paper);color:var(--ink);
+    font-family:"Songti SC","Noto Serif SC","Source Han Serif SC","STSong",serif;
+    line-height:2;-webkit-font-smoothing:antialiased;
+    transition:background .35s,color .35s;
+  }
+  .wrap{max-width:680px;margin:0 auto;padding:0 28px;}
+
+  header{padding:110px 0 36px;}
+  .site-name{font-size:28px;letter-spacing:8px;font-weight:700;}
+  .site-name::after{content:"";display:block;width:40px;height:1px;background:var(--accent);margin:16px 0 0;transition:background .35s;}
+  .site-desc{color:var(--muted);font-size:14px;margin-top:16px;letter-spacing:2px;}
+
+  nav{padding:16px 0;border-top:1px solid var(--line);border-bottom:1px solid var(--line);margin-bottom:56px;}
+  nav a{color:var(--muted);text-decoration:none;font-size:14px;margin-right:28px;letter-spacing:2px;transition:color .2s;}
+  nav a:hover{color:var(--accent);}
+
+  article{padding:28px 0;border-bottom:1px dashed var(--line);}
+  article:last-of-type{border-bottom:none;}
+  .post-date{font-size:12px;color:var(--muted);letter-spacing:2px;}
+  .post-title{font-size:21px;font-weight:600;margin:8px 0 10px;}
+  .post-title a{color:var(--ink);text-decoration:none;transition:color .2s;}
+  .post-title a:hover{color:var(--accent);}
+  .post-excerpt{font-size:14px;color:var(--muted);}
+  .read-more{display:inline-block;margin-top:8px;font-size:13px;color:var(--accent);text-decoration:none;letter-spacing:1px;}
+  .read-more:hover{text-decoration:underline;text-underline-offset:3px;}
+
+  footer{margin-top:72px;padding:32px 0 64px;border-top:1px solid var(--line);color:var(--muted);font-size:12px;text-align:center;letter-spacing:2px;}
+
+  /* ---------- 调色板按钮 ---------- */
+  #palette-btn{
+    position:fixed;top:20px;right:20px;z-index:99;
+    width:42px;height:42px;border-radius:50%;
+    border:1px solid var(--line);background:var(--paper);color:var(--ink);
+    font-size:18px;cursor:pointer;
+    display:flex;align-items:center;justify-content:center;
+    box-shadow:0 2px 8px rgba(0,0,0,.08);
+    transition:background .35s,color .35s,transform .2s;
+  }
+  #palette-btn:hover{transform:scale(1.08) rotate(20deg);}
+
+  /* ---------- 主题面板 ---------- */
+  #panel{
+    position:fixed;top:72px;right:20px;z-index:100;
+    width:240px;background:var(--paper);color:var(--ink);
+    border:1px solid var(--line);border-radius:14px;
+    box-shadow:0 8px 30px rgba(0,0,0,.16);
+    padding:16px;display:none;
+    transition:background .35s,color .35s;
+  }
+  #panel.open{display:block;}
+  #panel h3{font-size:13px;letter-spacing:2px;color:var(--muted);font-weight:600;margin-bottom:12px;}
+  .swatches{display:grid;grid-template-columns:1fr 1fr;gap:8px;}
+  .swatch{
+    border:1px solid var(--line);border-radius:10px;padding:8px;cursor:pointer;
+    background:var(--paper);transition:border-color .2s,transform .15s;text-align:left;
+  }
+  .swatch:hover{transform:translateY(-2px);}
+  .swatch.active{border-color:var(--accent);box-shadow:0 0 0 1px var(--accent);}
+  .swatch .s-name{font-size:12px;color:var(--ink);margin-bottom:6px;display:block;}
+  .swatch .s-dots{display:flex;gap:4px;}
+  .swatch .s-dots i{width:18px;height:12px;border-radius:3px;display:block;border:1px solid rgba(0,0,0,.08);}
+  .mode-row{display:flex;align-items:center;justify-content:space-between;margin-top:14px;padding-top:12px;border-top:1px dashed var(--line);}
+  .mode-row span{font-size:13px;color:var(--muted);letter-spacing:1px;}
+  .switch{
+    width:44px;height:22px;border-radius:11px;background:var(--line);position:relative;cursor:pointer;transition:background .3s;
+  }
+  .switch::after{
+    content:"";position:absolute;top:2px;left:2px;width:18px;height:18px;border-radius:50%;
+    background:#fff;transition:left .25s;
+  }
+  .switch.dark-mode{background:var(--accent);}
+  .switch.dark-mode::after{left:24px;}
+
+  /* ---------- 回到顶部 ---------- */
+  #to-top{
+    position:fixed;bottom:24px;right:24px;z-index:99;
+    width:42px;height:42px;border-radius:50%;
+    border:1px solid var(--line);background:var(--paper);color:var(--accent);
+    font-size:18px;cursor:pointer;
+    display:flex;align-items:center;justify-content:center;
+    box-shadow:0 2px 8px rgba(0,0,0,.08);
+    opacity:0;pointer-events:none;
+    transition:opacity .3s,transform .2s,background .35s,color .35s;
+  }
+  #to-top.show{opacity:1;pointer-events:auto;}
+  #to-top:hover{transform:translateY(-3px);}
+</style>
+</head>
+<body data-theme="matcha">
+<div class="wrap">
+  <header>
+    <div class="site-name">拾 光</div>
+    <div class="site-desc">整理我学过的 · 分享我思考的 · 慢慢积累的知识库</div>
+  </header>
+
+  <nav>
+    <a href="#">首页</a>
+    <a href="#">文章</a>
+    <a href="#">关于</a>
+    <a href="#">归档</a>
+  </nav>
+
+  <article>
+    <div class="post-date">2026.08.03</div>
+    <h2 class="post-title"><a href="#">SSH 连接云服务器的完整指南</a></h2>
+    <p class="post-excerpt">从零开始：Windows 自带 SSH 客户端、连接命令、密钥登录配置，以及安全组放行 22 端口的坑。</p>
+    <a class="read-more" href="#">阅读全文 →</a>
+  </article>
+
+  <article>
+    <div class="post-date">2026.08.01</div>
+    <h2 class="post-title"><a href="#">间隔复习法：让记忆更牢固</a></h2>
+    <p class="post-excerpt">基于《如何学习》的 1-3-7-14-30-60 天复习节奏，配合自评调整，把知识真正变成长期记忆。</p>
+    <a class="read-more" href="#">阅读全文 →</a>
+  </article>
+
+  <article>
+    <div class="post-date">2026.07.28</div>
+    <h2 class="post-title"><a href="#">我的第一台云服务器</a></h2>
+    <p class="post-excerpt">选购、重置密码、SSH 登录、部署第一个网页。踩过的坑都记在这里。</p>
+    <a class="read-more" href="#">阅读全文 →</a>
+  </article>
+
+  <article>
+    <div class="post-date">2026.07.20</div>
+    <h2 class="post-title"><a href="#">极简主义笔记法</a></h2>
+    <p class="post-excerpt">工具越少越好，结构越简单越好。我的笔记系统只有三个文件夹。</p>
+    <a class="read-more" href="#">阅读全文 →</a>
+  </article>
+
+  <footer>© 2026 拾光 · 素笺 · 保持简单，保持好奇</footer>
+</div>
+
+<button id="palette-btn" title="切换主题">🎨</button>
+<button id="to-top" title="回到顶部">↑</button>
+
+<div id="panel">
+  <h3>主题配色</h3>
+  <div class="swatches">
+    <button class="swatch" data-theme="matcha"><span class="s-name">抹茶绿</span><span class="s-dots"><i style="background:#7d9c6a"></i><i style="background:#1f241c"></i><i style="background:#a8c48f"></i></span></button>
+    <button class="swatch" data-theme="sky"><span class="s-name">淡蓝</span><span class="s-dots"><i style="background:#6b9ac4"></i><i style="background:#1c242e"></i><i style="background:#8fb7dd"></i></span></button>
+    <button class="swatch" data-theme="washi"><span class="s-name">素笺暖纸</span><span class="s-dots"><i style="background:#b0885a"></i><i style="background:#26221c"></i><i style="background:#c9a06b"></i></span></button>
+    <button class="swatch" data-theme="mono"><span class="s-name">拾光黑白</span><span class="s-dots"><i style="background:#1a1a1a"></i><i style="background:#121212"></i><i style="background:#f0f0f0"></i></span></button>
+    <button class="swatch" data-theme="line"><span class="s-name">现代线条</span><span class="s-dots"><i style="background:#4f6ef7"></i><i style="background:#15161a"></i><i style="background:#6b86f5"></i></span></button>
+    <button class="swatch" data-theme="term"><span class="s-name">终端极客</span><span class="s-dots"><i style="background:#3fb950"></i><i style="background:#0f1115"></i><i style="background:#7ee787"></i></span></button>
+  </div>
+  <div class="mode-row">
+    <span>深色模式</span>
+    <div class="switch" id="mode-switch"></div>
+  </div>
+</div>
+
+<script>
+  var THEME_KEY = 'blog_theme', MODE_KEY = 'blog_mode';
+  var body = document.body;
+
+  function applyTheme(t) {
+    body.dataset.theme = t;
+    try { localStorage.setItem(THEME_KEY, t); } catch (e) {}
+    document.querySelectorAll('.swatch').forEach(function (s) {
+      s.classList.toggle('active', s.dataset.theme === t);
+    });
+  }
+  function applyMode(m) {
+    body.classList.toggle('dark', m === 'dark');
+    document.getElementById('mode-switch').classList.toggle('dark-mode', m === 'dark');
+    try { localStorage.setItem(MODE_KEY, m); } catch (e) {}
+  }
+
+  // 恢复上次选择（默认：抹茶绿 + 深色）
+  var savedTheme, savedMode;
+  try {
+    savedTheme = localStorage.getItem(THEME_KEY);
+    savedMode = localStorage.getItem(MODE_KEY);
+  } catch (e) {}
+  applyTheme(savedTheme || 'matcha');
+  applyMode(savedMode || 'dark');
+
+  // 面板开关
+  var panel = document.getElementById('panel');
+  document.getElementById('palette-btn').addEventListener('click', function (e) {
+    e.stopPropagation();
+    panel.classList.toggle('open');
+  });
+  document.addEventListener('click', function (e) {
+    if (!panel.contains(e.target) && e.target.id !== 'palette-btn') panel.classList.remove('open');
+  });
+
+  // 色卡切换
+  document.querySelectorAll('.swatch').forEach(function (s) {
+    s.addEventListener('click', function () {
+      applyTheme(s.dataset.theme);
+    });
+  });
+
+  // 深浅切换
+  document.getElementById('mode-switch').addEventListener('click', function () {
+    applyMode(body.classList.contains('dark') ? 'light' : 'dark');
+  });
+
+  // 回到顶部
+  var topBtn = document.getElementById('to-top');
+  window.addEventListener('scroll', function () {
+    topBtn.classList.toggle('show', window.scrollY > 400);
+  });
+  topBtn.addEventListener('click', function () {
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  });
+</script>
+</body>
+</html>

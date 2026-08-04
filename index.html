@@ -1,0 +1,96 @@
+﻿<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>奈欢yu的博客</title>
+<link rel="stylesheet" href="css/style.css">
+</head>
+<body data-theme="matcha">
+<div class="wrap">
+  <header>
+    <div class="site-name"><img src="IMAGE/avatar.png" alt="头像">奈欢yu的博客</div>
+    <div class="site-desc">自分の力で幸せなる</div>
+  </header>
+
+  <nav>
+    <a href="index.html">首页</a>
+    <a href="course.html">课程</a>
+    <a href="404.html">关于</a>
+    <a href="404.html">归档</a>
+  </nav>
+
+  <!-- 大类板块 -->
+  <section class="section">
+    <div class="cat-grid">
+      <a class="cat-card" href="course.html#lang">
+        <div class="cat-icon">🌏</div>
+        <div class="cat-name">语言学习类</div>
+        <div class="cat-desc">日语 · 英语 · 韩语</div>
+        <div class="cat-foot">
+          <span class="cat-count">3 门课</span>
+          <span class="badge on">日语进行中</span>
+        </div>
+      </a>
+      <a class="cat-card" href="course.html#prog">
+        <div class="cat-icon">💻</div>
+        <div class="cat-name">编程工具类</div>
+        <div class="cat-desc">从零到全栈</div>
+        <div class="cat-foot">
+          <span class="cat-count">17 门课</span>
+          <span class="badge soon">待学习</span>
+        </div>
+      </a>
+      <a class="cat-card" href="course.html#tool">
+        <div class="cat-icon">🧰</div>
+        <div class="cat-name">软件工具类</div>
+        <div class="cat-desc">办公 · 设计</div>
+        <div class="cat-foot">
+          <span class="cat-count">9 门课</span>
+          <span class="badge soon">待整理</span>
+        </div>
+      </a>
+      <a class="cat-card" href="course.html#book">
+        <div class="cat-icon">📚</div>
+        <div class="cat-name">书籍类</div>
+        <div class="cat-desc">认知 · 心理 · 推理</div>
+        <div class="cat-foot">
+          <span class="cat-count">3 门课</span>
+          <span class="badge soon">待整理</span>
+        </div>
+      </a>
+    </div>
+  </section>
+
+  <!-- 最新更新（占位） -->
+  <section class="section">
+    <h2 class="section-title">最新更新</h2>
+    <div class="empty">📝 还没有文章，等你写下第一篇</div>
+  </section>
+
+  <footer>© 2026 奈欢yu的博客 · 生命不息-学习不止</footer>
+</div>
+
+<button id="palette-btn" title="切换主题">🎨</button>
+<button id="to-top" title="回到顶部">↑</button>
+
+<div id="panel">
+  <h3>主题配色</h3>
+  <div class="swatches">
+    <button class="swatch" data-theme="matcha"><span class="s-name">抹茶绿</span><span class="s-dots"><i style="background:#7d9c6a"></i><i style="background:#1f241c"></i><i style="background:#a8c48f"></i></span></button>
+    <button class="swatch" data-theme="sky"><span class="s-name">淡蓝</span><span class="s-dots"><i style="background:#6b9ac4"></i><i style="background:#1c242e"></i><i style="background:#8fb7dd"></i></span></button>
+    <button class="swatch" data-theme="washi"><span class="s-name">素笺暖纸</span><span class="s-dots"><i style="background:#b0885a"></i><i style="background:#26221c"></i><i style="background:#c9a06b"></i></span></button>
+    <button class="swatch" data-theme="mono"><span class="s-name">拾光黑白</span><span class="s-dots"><i style="background:#1a1a1a"></i><i style="background:#121212"></i><i style="background:#f0f0f0"></i></span></button>
+    <button class="swatch" data-theme="line"><span class="s-name">现代线条</span><span class="s-dots"><i style="background:#4f6ef7"></i><i style="background:#15161a"></i><i style="background:#6b86f5"></i></span></button>
+    <button class="swatch" data-theme="term"><span class="s-name">终端极客</span><span class="s-dots"><i style="background:#3fb950"></i><i style="background:#0f1115"></i><i style="background:#7ee787"></i></span></button>
+  </div>
+  <div class="mode-row">
+    <span>深色模式</span>
+    <div class="switch" id="mode-switch"></div>
+  </div>
+</div>
+
+<script src="js/main.js"></script>
+</body>
+</html>
+

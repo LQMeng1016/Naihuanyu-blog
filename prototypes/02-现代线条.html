@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Notes — 我的知识库</title>
+<style>
+  /* ===== 原型 B：现代线条 · 无衬线 · 细线分隔 ===== */
+  :root{
+    --bg:#fafafa;
+    --ink:#111;
+    --muted:#6b6b6b;
+    --accent:#4f6ef7;
+    --line:#e5e5e5;
+  }
+  *{margin:0;padding:0;box-sizing:border-box;}
+  body{
+    background:var(--bg);
+    color:var(--ink);
+    font-family:-apple-system,BlinkMacSystemFont,"Segoe UI","PingFang SC","Microsoft YaHei",sans-serif;
+    line-height:1.7;
+  }
+
+  .topbar{
+    position:sticky;top:0;background:rgba(250,250,250,.92);
+    backdrop-filter:blur(8px);border-bottom:1px solid var(--line);
+  }
+  .topbar-inner{max-width:760px;margin:0 auto;padding:16px 24px;display:flex;justify-content:space-between;align-items:center;}
+  .logo{font-size:18px;font-weight:700;letter-spacing:-0.5px;}
+  .logo span{color:var(--accent);}
+  .topbar nav a{color:var(--muted);text-decoration:none;font-size:14px;margin-left:24px;}
+  .topbar nav a:hover{color:var(--ink);}
+
+  main{max-width:760px;margin:0 auto;padding:64px 24px 24px;}
+  .hero h1{font-size:32px;font-weight:700;letter-spacing:-1px;margin-bottom:12px;}
+  .hero p{color:var(--muted);font-size:16px;max-width:520px;}
+  .hero{margin-bottom:56px;}
+
+  .post{
+    display:flex;justify-content:space-between;align-items:baseline;
+    padding:20px 0;border-bottom:1px solid var(--line);
+  }
+  .post:hover .post-title{color:var(--accent);}
+  .post-title{font-size:17px;font-weight:600;color:var(--ink);text-decoration:none;transition:color .15s;}
+  .post-meta{color:var(--muted);font-size:13px;white-space:nowrap;margin-left:16px;}
+
+  .tag{font-size:12px;color:var(--accent);border:1px solid var(--line);border-radius:999px;padding:2px 10px;margin-right:8px;}
+
+  footer{max-width:760px;margin:0 auto;padding:64px 24px 48px;color:var(--muted);font-size:13px;}
+</style>
+</head>
+<body>
+<div class="topbar">
+  <div class="topbar-inner">
+    <div class="logo">my<span>notes</span></div>
+    <nav>
+      <a href="#">首页</a>
+      <a href="#">文章</a>
+      <a href="#">关于</a>
+    </nav>
+  </div>
+</div>
+
+<main>
+  <div class="hero">
+    <h1>我的知识库</h1>
+    <p>把学过的、踩过的坑、想明白的事，整理成可以检索的文字。Less is more.</p>
+  </div>
+
+  <div class="post">
+    <a class="post-title" href="#">SSH 连接云服务器完整指南</a>
+    <span class="post-meta">2026.08.03</span>
+  </div>
+  <div class="post">
+    <a class="post-title" href="#">间隔复习法：把知识变成长期记忆</a>
+    <span class="post-meta">2026.08.01</span>
+  </div>
+  <div class="post">
+    <a class="post-title" href="#">我的第一台云服务器部署记录</a>
+    <span class="post-meta">2026.07.28</span>
+  </div>
+  <div class="post">
+    <a class="post-title" href="#">极简主义笔记法：三个文件夹就够了</a>
+    <span class="post-meta">2026.07.20</span>
+  </div>
+  <div class="post">
+    <a class="post-title" href="#">Linux 常用命令速查表</a>
+    <span class="post-meta">2026.07.15</span>
+  </div>
+  <div class="post">
+    <a class="post-title" href="#">Python 虚拟环境使用心得</a>
+    <span class="post-meta">2026.07.10</span>
+  </div>
+</main>
+
+<footer>© 2026 mynotes · 极简即美</footer>
+</body>
+</html>
