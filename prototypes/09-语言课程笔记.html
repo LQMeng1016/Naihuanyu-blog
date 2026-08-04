@@ -1,0 +1,205 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>笔记模板原型 · 第5課 電車で行きますか</title>
+<link rel="stylesheet" href="../css/style.css">
+<style>
+/* ===== 语言课程笔记模板（原型 09） ===== */
+/* 元信息条 */
+.note-meta{display:flex;flex-wrap:wrap;gap:8px 18px;margin:10px 0 0;font-size:12px;color:var(--muted);letter-spacing:1px;}
+.note-meta b{color:var(--ink);font-weight:600;}
+/* 速览卡 */
+.note-quick{
+  border:1px solid var(--line);border-left:3px solid var(--accent);border-radius:10px;
+  background:var(--paper);padding:12px 16px;margin:18px 0;font-size:14px;
+  transition:background .35s,border-color .35s;
+}
+.note-quick h3{font-size:13px;letter-spacing:2px;margin-bottom:6px;color:var(--accent);}
+.note-quick ol{margin-left:20px;color:var(--ink);line-height:2;}
+/* 小节标题 */
+.note-sec{font-size:16px;letter-spacing:2px;margin:30px 0 6px;font-weight:600;display:flex;align-items:center;gap:8px;}
+.note-sec::before{content:attr(data-ico);}
+/* 语法卡 */
+.grammar-card{
+  border:1px solid var(--line);border-radius:12px;background:var(--paper);
+  padding:16px 18px;margin:14px 0;transition:background .35s,border-color .35s;
+}
+.grammar-card .g-formula{
+  font-size:22px;letter-spacing:2px;color:var(--accent);font-weight:700;
+  background:var(--line);border-radius:8px;padding:8px 14px;display:inline-block;
+  margin-bottom:10px;
+}
+.grammar-card .g-desc{font-size:14px;color:var(--muted);line-height:2;margin-bottom:8px;}
+.grammar-card .g-desc b{color:var(--ink);}
+/* 例句行 */
+.ex-line{font-size:15px;line-height:2.2;color:var(--ink);padding:3px 0;border-bottom:1px dashed var(--line);}
+.ex-line:last-child{border-bottom:none;}
+.ex-line .ex-zh{color:var(--muted);font-size:13px;margin-left:10px;}
+/* 表达积累 */
+.expr-list{display:grid;grid-template-columns:repeat(auto-fill,minmax(230px,1fr));gap:10px;margin:10px 0;}
+.expr-item{
+  border:1px solid var(--line);border-radius:10px;background:var(--paper);
+  padding:10px 14px;font-size:14px;line-height:1.9;transition:background .35s,border-color .35s;
+}
+.expr-item .jp{font-weight:600;letter-spacing:1px;}
+.expr-item .zh{color:var(--muted);font-size:12.5px;}
+/* 易错点 */
+.warn-box{
+  border:1px solid #c96a5e;border-left:3px solid #c96a5e;border-radius:10px;
+  background:var(--paper);padding:12px 16px;margin:14px 0;font-size:14px;line-height:2;
+  transition:background .35s,border-color .35s;
+}
+.warn-box .w-title{color:#c96a5e;font-weight:700;letter-spacing:1px;margin-bottom:4px;}
+.warn-box b{color:var(--ink);}
+/* 行动项 */
+.task-box{
+  border:1px solid var(--line);border-left:3px solid #7d9c6a;border-radius:10px;
+  background:var(--paper);padding:14px 16px;margin:14px 0;
+}
+.task-box .t-title{color:#7d9c6a;font-weight:700;letter-spacing:1px;margin-bottom:8px;}
+.task-list{list-style:none;}
+.task-list li{line-height:2.2;font-size:14px;color:var(--ink);}
+.task-list input{margin-right:8px;accent-color:var(--accent);}
+.task-list .t-sub{color:var(--muted);font-size:12px;margin-left:6px;}
+/* 页脚导航 */
+.note-nav{display:flex;justify-content:space-between;gap:12px;margin:30px 0 10px;font-size:13px;}
+.note-nav a{color:var(--muted);text-decoration:none;border:1px solid var(--line);border-radius:18px;padding:6px 16px;transition:color .3s,border-color .3s;}
+.note-nav a:hover{color:var(--accent);border-color:var(--accent);}
+</style>
+</head>
+<body data-theme="matcha">
+<div class="wrap">
+  <header>
+    <div class="site-name"><img src="../IMAGE/avatar.png" alt="头像">奈欢yu的博客</div>
+    <div class="site-desc">自分の力で幸せなる</div>
+  </header>
+
+  <nav>
+    <a href="../index.html">首页</a>
+    <a href="../course.html">课程</a>
+    <a href="../404.html">关于</a>
+    <a href="../404.html">归档</a>
+  </nav>
+
+  <div class="course-head">
+    <a class="back" href="../course/japanese.html#n5">← 返回日语学习</a>
+    <h1 class="post-title">第 5 課 電車で行きますか</h1>
+    <div class="post-meta">日语 · N5 · 交通方式与时间表达</div>
+    <div class="note-meta">
+      <span>📅 笔记日期：<b>2026-08-05</b></span>
+      <span>📚 课程：<b>日语 · 大家的日语初级1</b></span>
+      <span>🏷️ 标签：<b>交通 / ます形 / 助词</b></span>
+      <span>🧠 复习：<b>下次 8-08</b></span>
+    </div>
+  </div>
+
+  <!-- 速览 -->
+  <div class="note-quick">
+    <h3>⚡ 本节课要点</h3>
+    <ol>
+      <li>「～で」表示交通工具（電車で行きます）</li>
+      <li>ます形三兄弟：～ます / ～ません / ～ました</li>
+      <li>时间点 + に + 动词（7時に起きます）</li>
+    </ol>
+  </div>
+
+  <!-- 单词 -->
+  <h2 class="note-sec" data-ico="📖">本课单词<span class="sub" style="font-size:12px;color:var(--muted);margin-left:8px;font-weight:400;">先混个脸熟</span></h2>
+  <div class="words-wrap"><table class="words-table">
+    <tr><th>日语</th><th>读音</th><th>中文</th></tr>
+    <tr><td class="jp"><ruby>電車<rt>でんしゃ</rt></ruby></td><td class="jp">でんしゃ</td><td class="zh">电车</td></tr>
+    <tr><td class="jp"><ruby>地下鉄<rt>ちかてつ</rt></ruby></td><td class="jp">ちかてつ</td><td class="zh">地铁</td></tr>
+    <tr><td class="jp"><ruby>新幹線<rt>しんかんせん</rt></ruby></td><td class="jp">しんかんせん</td><td class="zh">新干线</td></tr>
+    <tr><td class="jp">バス</td><td class="jp">バス</td><td class="zh">公交车</td></tr>
+    <tr><td class="jp">タクシー</td><td class="jp">タクシー</td><td class="zh">出租车</td></tr>
+    <tr><td class="jp"><ruby>自転車<rt>じてんしゃ</rt></ruby></td><td class="jp">じてんしゃ</td><td class="zh">自行车</td></tr>
+    <tr><td class="jp"><ruby>歩いて<rt>あるいて</rt></ruby></td><td class="jp">あるいて</td><td class="zh">步行（て形）</td></tr>
+  </table></div>
+
+  <!-- 语法 -->
+  <h2 class="note-sec" data-ico="🧩">语法点</h2>
+
+  <div class="grammar-card">
+    <div class="g-formula">～で ＋ 行きます</div>
+    <div class="g-desc">助词 <b>で</b> 跟在交通工具后面，表示「利用～」去做某事。注意 <b>歩いて</b> 是例外，不加 で。</div>
+    <div class="ex-line"><ruby>電車<rt>でんしゃ</rt></ruby>で<ruby>行きます<rt>いきます</rt></ruby>。<span class="ex-zh">坐电车去。</span></div>
+    <div class="ex-line"><ruby>何<rt>なに</rt></ruby>で<ruby>来ました<rt>きました</rt></ruby>か。<span class="ex-zh">你怎么来的？</span></div>
+    <div class="ex-line"><ruby>歩いて<rt>あるいて</rt></ruby><ruby>行きます<rt>いきます</rt></ruby>。<span class="ex-zh">走着去。</span></div>
+  </div>
+
+  <div class="grammar-card">
+    <div class="g-formula">～ます / ～ません / ～ました</div>
+    <div class="g-desc">ます形三兄弟：现在肯定（ます）→ 现在否定（ません）→ 过去肯定（ました）。<b>ませんでした</b> 是过去否定。</div>
+    <div class="ex-line"><ruby>毎日<rt>まいにち</rt></ruby>バスで<ruby>行きます<rt>いきます</rt></ruby>。<span class="ex-zh">每天坐公交去。</span></div>
+    <div class="ex-line"><ruby>今日<rt>きょう</rt></ruby>はタクシーで<ruby>行きません<rt>いきません</rt></ruby>。<span class="ex-zh">今天不打车去。</span></div>
+    <div class="ex-line">きのう<ruby>地下鉄<rt>ちかてつ</rt></ruby>で<ruby>行きました<rt>いきました</rt></ruby>。<span class="ex-zh">昨天坐地铁去了。</span></div>
+  </div>
+
+  <div class="grammar-card">
+    <div class="g-formula">時間 ＋ に ＋ 動詞</div>
+    <div class="g-desc">具体时间点后面加 <b>に</b>。注意「毎日／今／昨日」这类词后面<b>不加</b>に。</div>
+    <div class="ex-line"><ruby>七時<rt>しちじ</rt></ruby>に<ruby>起きます<rt>おきます</rt></ruby>。<span class="ex-zh">7 点起床。</span></div>
+    <div class="ex-line"><ruby>九時<rt>くじ</rt></ruby>に<ruby>会社<rt>かいしゃ</rt></ruby>へ<ruby>行きます<rt>いきます</rt></ruby>。<span class="ex-zh">9 点去公司。</span></div>
+  </div>
+
+  <!-- 表达积累 -->
+  <h2 class="note-sec" data-ico="💬">表达积累</h2>
+  <div class="expr-list">
+    <div class="expr-item"><div class="jp">何で行きますか。</div><div class="zh">怎么去？（问交通工具）</div></div>
+    <div class="expr-item"><div class="jp">歩いて何分ですか。</div><div class="zh">走路要几分钟？</div></div>
+    <div class="expr-item"><div class="jp">～は何時までですか。</div><div class="zh">～到几点？（问营业时间）</div></div>
+    <div class="expr-item"><div class="jp">いっしょに行きませんか。</div><div class="zh">一起去吗？（邀请）</div></div>
+  </div>
+
+  <!-- 易错点 -->
+  <h2 class="note-sec" data-ico="⚠️">易错点</h2>
+  <div class="warn-box">
+    <div class="w-title">⚠️ に 和 で 别搞混</div>
+    <b>に</b> 是「时间点/目的地」，<b>で</b> 是「交通工具/手段」。<br>
+    「歩いて」不加 で ✗ 歩いてで → ✓ 歩いて行きます。<br>
+    时间词「今・昨日・明日・毎日」后不加 に ✗ 毎日に → ✓ 毎日。
+  </div>
+
+  <!-- 行动项 -->
+  <h2 class="note-sec" data-ico="✅">复习行动项</h2>
+  <div class="task-box">
+    <div class="t-title">✅ 本次任务</div>
+    <ul class="task-list">
+      <li><input type="checkbox"> 背下本课 7 个交通单词<span class="t-sub">（用单词页 N5 自测）</span></li>
+      <li><input type="checkbox"> 用 ～で 造 5 个「怎么去」的句子<span class="t-sub">（写进评论区或打卡）</span></li>
+      <li><input type="checkbox"> 3 天后（8-08）回来复习本页<span class="t-sub">（间隔复习第 1 轮）</span></li>
+    </ul>
+  </div>
+
+  <div class="note-nav">
+    <a href="#">← 第 4 課 そちらは何時までですか</a>
+    <a href="#">第 6 課 いっしょに行きませんか →</a>
+  </div>
+
+  <footer>© 2026 奈欢yu的博客 · 生命不息-学习不止</footer>
+</div>
+
+<button id="palette-btn" title="切换主题">🎨</button>
+<button id="to-top" title="回到顶部">↑</button>
+
+<div id="panel">
+  <h3>主题配色</h3>
+  <div class="swatches">
+    <button class="swatch" data-theme="matcha"><span class="s-name">抹茶绿</span><span class="s-dots"><i style="background:#7d9c6a"></i><i style="background:#1f241c"></i><i style="background:#a8c48f"></i></span></button>
+    <button class="swatch" data-theme="sky"><span class="s-name">淡蓝</span><span class="s-dots"><i style="background:#6b9ac4"></i><i style="background:#1c242e"></i><i style="background:#8fb7dd"></i></span></button>
+    <button class="swatch" data-theme="washi"><span class="s-name">素笺暖纸</span><span class="s-dots"><i style="background:#b0885a"></i><i style="background:#26221c"></i><i style="background:#c9a06b"></i></span></button>
+    <button class="swatch" data-theme="mono"><span class="s-name">拾光黑白</span><span class="s-dots"><i style="background:#1a1a1a"></i><i style="background:#121212"></i><i style="background:#f0f0f0"></i></span></button>
+    <button class="swatch" data-theme="line"><span class="s-name">现代线条</span><span class="s-dots"><i style="background:#4f6ef7"></i><i style="background:#15161a"></i><i style="background:#6b86f5"></i></span></button>
+    <button class="swatch" data-theme="term"><span class="s-name">终端极客</span><span class="s-dots"><i style="background:#3fb950"></i><i style="background:#0f1115"></i><i style="background:#7ee787"></i></span></button>
+  </div>
+  <div class="mode-row">
+    <span>深色模式</span>
+    <div class="switch" id="mode-switch"></div>
+  </div>
+</div>
+
+<script src="../js/main.js"></script>
+</body>
+</html>
