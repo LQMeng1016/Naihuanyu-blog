@@ -129,6 +129,66 @@ footer{margin-top:72px;padding:32px 0 64px;border-top:1px solid var(--line);colo
 ruby rt{font-size:11px;color:var(--accent);font-weight:400;transition:color .35s;}
 .words-wrap{overflow-x:auto;}
 
+/* ---------- 遮罩自测 ---------- */
+.mask-bar{display:flex;gap:10px;align-items:center;flex-wrap:wrap;margin:14px 0 4px;font-size:13px;color:var(--muted);}
+.mask-btn{
+  border:1px solid var(--line);background:var(--paper);color:var(--muted);
+  border-radius:16px;padding:4px 16px;font-size:13px;cursor:pointer;letter-spacing:1px;
+  transition:background .3s,color .3s,border-color .3s;
+}
+.mask-btn:hover{border-color:var(--accent);}
+.mask-btn.active{background:var(--accent);color:#fff;border-color:var(--accent);}
+.mask-hint{font-size:12px;color:var(--muted);opacity:.8;}
+.words-table td.jp,.words-table td.zh{transition:filter .25s;}
+.mask-jp .words-table td.jp{filter:blur(8px);}
+.mask-jp .words-table tr:hover td.jp{filter:none;}
+.mask-zh .words-table td.zh{filter:blur(8px);}
+.mask-zh .words-table tr:hover td.zh{filter:none;}
+
+/* ---------- 单词自测 ---------- */
+.quiz-bar{display:flex;align-items:center;gap:18px;flex-wrap:wrap;margin:18px 0 6px;}
+.quiz-bar label{font-size:13px;color:var(--muted);letter-spacing:1px;cursor:pointer;}
+.quiz-bar label input{margin-right:4px;accent-color:var(--accent);}
+.quiz-btn{
+  display:inline-block;padding:9px 26px;border-radius:22px;border:none;cursor:pointer;
+  background:var(--accent);color:#fff;font-size:14px;letter-spacing:2px;
+  transition:transform .2s,box-shadow .2s;
+}
+.quiz-btn:hover{transform:translateY(-2px);box-shadow:0 4px 14px rgba(0,0,0,.15);}
+.quiz-box{
+  border:1px solid var(--line);border-radius:14px;padding:22px;
+  background:var(--paper);margin:16px 0 30px;
+  transition:background .35s,border-color .35s;
+}
+.quiz-head{display:flex;justify-content:space-between;font-size:13px;color:var(--muted);letter-spacing:1px;}
+.quiz-question{font-size:26px;text-align:center;padding:26px 0 22px;letter-spacing:2px;}
+.quiz-question ruby rt{font-size:13px;}
+.quiz-options{display:grid;grid-template-columns:1fr 1fr;gap:10px;}
+@media (max-width:540px){.quiz-options{grid-template-columns:1fr;}}
+.quiz-option{
+  border:1px solid var(--line);border-radius:10px;padding:13px 10px;cursor:pointer;
+  text-align:center;font-size:15px;background:var(--paper);
+  transition:border-color .2s,background .2s,color .2s;
+}
+.quiz-option:hover{border-color:var(--accent);}
+.quiz-option.correct{background:var(--accent);color:#fff;border-color:var(--accent);}
+.quiz-option.wrong{background:#c96a5e;color:#fff;border-color:#c96a5e;}
+.quiz-input-row{display:flex;gap:10px;justify-content:center;align-items:center;margin:6px 0 8px;}
+.quiz-input{
+  flex:1;max-width:280px;padding:11px 16px;border-radius:22px;
+  border:1px solid var(--line);background:var(--paper);color:var(--ink);
+  font-size:16px;text-align:center;letter-spacing:1px;outline:none;
+  transition:border-color .2s,background .35s,color .35s;
+}
+.quiz-input:focus{border-color:var(--accent);}
+.quiz-feedback{text-align:center;font-size:14px;color:var(--muted);margin-top:12px;min-height:22px;letter-spacing:1px;}
+.quiz-feedback ruby rt{font-size:10px;}
+.quiz-foot{display:flex;justify-content:center;gap:12px;margin-top:14px;flex-wrap:wrap;}
+.quiz-result{text-align:center;padding:8px 0;}
+.quiz-result .score{font-size:20px;font-weight:700;letter-spacing:2px;margin-bottom:8px;}
+.quiz-wrong-list{font-size:13px;color:var(--muted);margin-top:10px;line-height:2;}
+.quiz-wrong-list ruby rt{font-size:10px;}
+
 /* ---------- 文章页（五十音图等知识内容） ---------- */
 .post-title{font-size:26px;font-weight:700;letter-spacing:2px;margin-top:14px;}
 .post-meta{font-size:12px;color:var(--muted);letter-spacing:1px;margin-top:8px;}
