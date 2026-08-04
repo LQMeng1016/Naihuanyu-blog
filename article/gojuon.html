@@ -32,6 +32,14 @@
     先记平假名，再记片假名，每天记一行，十天过一遍。罗马音是发音的拐杖，帮你先读起来。
   </div>
 
+  <!-- 显示方式切换 -->
+  <div class="kana-modes">
+    <span>显示方式：</span>
+    <button class="tab-btn" data-kana="hira">平假名</button>
+    <button class="tab-btn" data-kana="kata">片假名</button>
+    <button class="tab-btn active" data-kana="both">平片假名</button>
+  </div>
+
   <h2 class="section-h">清音<span class="sub">せいおん · 46 音</span></h2>
   <div class="kana-grid">
     <div class="kana-cell"><span class="hira">あ</span><span class="kata">ア</span><span class="romaji">a</span></div>
@@ -171,5 +179,21 @@
 </div>
 
 <script src="../js/main.js"></script>
+<script>
+/* 五十音图显示方式：平假名 / 片假名 / 平片假名 */
+(function () {
+  var btns = document.querySelectorAll('.kana-modes .tab-btn');
+  for (var i = 0; i < btns.length; i++) {
+    btns[i].addEventListener('click', function () {
+      for (var j = 0; j < btns.length; j++) btns[j].classList.remove('active');
+      this.classList.add('active');
+      var m = this.dataset.kana;
+      document.body.classList.remove('kana-hira', 'kana-kata');
+      if (m === 'hira') document.body.classList.add('kana-hira');
+      if (m === 'kata') document.body.classList.add('kana-kata');
+    });
+  }
+})();
+</script>
 </body>
 </html>

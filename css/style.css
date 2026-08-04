@@ -95,6 +95,7 @@ nav a:hover{color:var(--accent);}
 .c-foot{display:flex;justify-content:space-between;align-items:center;}
 .badge{font-size:11px;padding:1px 9px;border-radius:10px;letter-spacing:1px;}
 .badge.on{background:var(--accent);color:#fff;}
+.badge.done{background:#7d9c6a;color:#fff;}
 .badge.soon{border:1px dashed var(--muted);color:var(--muted);}
 .c-count{font-size:12px;color:var(--muted);letter-spacing:1px;}
 
@@ -305,6 +306,11 @@ ruby rt{font-size:11px;color:var(--accent);font-weight:400;transition:color .35s
 .kana-cell .romaji{font-size:11px;color:var(--accent);display:block;margin-top:3px;letter-spacing:1px;transition:color .35s;}
 .kana-cell.empty{color:var(--muted);opacity:.4;font-size:14px;display:flex;align-items:center;justify-content:center;}
 .note{font-size:13px;color:var(--muted);letter-spacing:1px;margin-top:10px;}
+/* 五十音图显示方式切换 */
+.kana-modes{display:flex;gap:8px;align-items:center;flex-wrap:wrap;margin:18px 0 4px;font-size:13px;color:var(--muted);}
+.kana-hira .kata{display:none;}
+.kana-kata .hira{display:none;}
+.kana-kata .kata{font-size:22px;color:var(--ink);margin-top:0;}
 
 /* ---------- 404 / 开发中页面 ---------- */
 .developing{text-align:center;padding:90px 0 40px;}
