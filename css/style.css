@@ -64,7 +64,8 @@ nav a:hover{color:var(--accent);}
 
 /* ---------- 课程卡片 ---------- */
 .cards{display:grid;grid-template-columns:1fr 1fr;gap:14px;}
-@media (max-width:540px){.cards{grid-template-columns:1fr;}}
+.course-list{display:grid;grid-template-columns:1fr 1fr;gap:14px;}
+@media (max-width:540px){.cards{grid-template-columns:1fr;}.course-list{grid-template-columns:1fr;}}
 
 /* ---------- 大类板块卡片（首页） ---------- */
 .cat-grid{display:grid;grid-template-columns:1fr 1fr;gap:14px;}
@@ -355,6 +356,20 @@ ruby rt{font-size:11px;color:var(--accent);font-weight:400;transition:color .35s
 .side-nav a:hover{color:var(--accent);}
 .side-nav a.active{color:var(--accent);background:var(--line);}
 @media (max-width:900px){.side-nav{display:none;}}
+
+/* ---------- 手机适配：卡片/课程页/笔记页 ---------- */
+@media (max-width:540px){
+  .card{padding:14px 14px 12px;}
+  .c-name{font-size:14.5px;letter-spacing:.3px;}
+  .c-desc{font-size:12px;margin:3px 0 10px;line-height:1.6;}
+  .c-count{font-size:11px;}
+  .grade{padding:14px;}
+  .grade-name{font-size:15px;}
+  .grade-tag{width:38px;height:38px;font-size:13px;}
+  .post-title{font-size:17px;letter-spacing:1px;line-height:1.5;}
+  .note-meta{font-size:11px;}
+  .course-meta{font-size:12px;}
+}
 
 /* 锚点跳转时避开吸顶导航 */
 section[id]{scroll-margin-top:80px;}
