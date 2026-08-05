@@ -364,6 +364,10 @@ ruby rt{font-size:11px;color:var(--accent);font-weight:400;transition:color .35s
   .cat-name{font-size:15px;letter-spacing:1px;margin-top:10px;}
   .cat-desc{font-size:12px;margin:3px 0 10px;line-height:1.6;}
   .card{padding:14px 14px 12px;}
+  .grammar-card .g-formula{font-size:16px;letter-spacing:1px;padding:6px 10px;}
+  .grammar-card .g-desc{font-size:13px;line-height:1.9;}
+  .ex-line{font-size:14px;line-height:2;}
+  .ex-line .ex-zh{font-size:12px;}
   .c-name{font-size:14.5px;letter-spacing:.3px;}
   .c-desc{font-size:12px;margin:3px 0 10px;line-height:1.6;}
   .c-count{font-size:11px;}
