@@ -63,8 +63,8 @@ nav a:hover{color:var(--accent);}
 .section-title::before{content:"";width:18px;height:1px;background:var(--accent);}
 
 /* ---------- 课程卡片 ---------- */
-.cards{display:grid;grid-template-columns:1fr 1fr;gap:14px;}
-.course-list{display:grid;grid-template-columns:1fr 1fr;gap:14px;}
+.cards{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:14px;}
+.course-list{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:14px;}
 @media (max-width:540px){.cards{grid-template-columns:1fr;}.course-list{grid-template-columns:1fr;}}
 
 /* ---------- 大类板块卡片（首页） ---------- */
