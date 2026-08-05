@@ -359,6 +359,13 @@ ruby rt{font-size:11px;color:var(--accent);font-weight:400;transition:color .35s
 
 /* ---------- 手机适配：卡片/课程页/笔记页 ---------- */
 @media (max-width:540px){
+  header{padding:44px 0 24px;}
+  .site-name{font-size:19px;letter-spacing:2px;gap:10px;flex-wrap:nowrap;}
+  .site-name img{width:36px;height:36px;}
+  .cat-grid{grid-template-columns:1fr;}
+  .cat-card{padding:16px;}
+  .cat-name{font-size:17px;letter-spacing:1px;margin-top:8px;}
+  .cat-desc{font-size:12px;margin:3px 0 10px;line-height:1.6;}
   .card{padding:14px 14px 12px;}
   .c-name{font-size:14.5px;letter-spacing:.3px;}
   .c-desc{font-size:12px;margin:3px 0 10px;line-height:1.6;}
